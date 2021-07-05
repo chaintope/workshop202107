@@ -12,5 +12,5 @@
 
 
 # 2. Gluebyの基礎
-[README.md](https://github.com/chaintope/glueby/blob/master/README.md)を参照
+[glueby/README.md](https://github.com/chaintope/glueby/blob/master/README.md)を参照
 
