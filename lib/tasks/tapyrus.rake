@@ -10,11 +10,11 @@
 ########################################
 
 # faucetのwallet_id。mining報酬が溜まっていくwallet。
-FAUCET_ID = "199cedb673e7998818210360dc0825fe"
+FAUCET_ID = ""
 # サンプルで使うsender & aliceのwallet_id。TCPを持っている必要があるのでfaucetと同じwallet_idを指定している。
-SENDER_ID = "38e8ca3474ccbbab8185940247c64bd7"
+SENDER_ID = ""
 # サンプルで使うreceiver & bobのwallet_id。
-RECEIVER_ID = "55a4cd8028dc02f5dfad575041e8d216"
+RECEIVER_ID = ""
 
 namespace :tapyrus do
 
@@ -55,14 +55,6 @@ namespace :tapyrus do
   desc "TCPを送金する"
   task :payment => :environment do |task, args|
     payment(SENDER_ID, RECEIVER_ID, 10_000_000) # 0.1TPCをreceiverに送金する。
-    # sender = Glueby::Wallet.load(SENDER_ID)
-    # receiver = Glueby::Wallet.load(RECEIVER_ID)
-    # address = receiver.internal_wallet.receive_address
-    # puts "receiver address = #{address}"
-    # tx = Glueby::Contract::Payment.transfer(sender: sender,
-    #                                    receiver_address: address,
-    #                                    amount: 10_000_000)
-    # puts "transaction.id = #{tx.txid}"
   end
 
   ##### Timestamp 関連 #####
@@ -96,20 +88,86 @@ namespace :tapyrus do
     txs = tokens[1]
     token_id = token_info.color_id.payload.bth
     token_type = color_type2name(token_info.token_type)
-    token_amount = token_info.amount(wallet: alice)
-    puts "issue token: id=#{token_id}, type=#{token_type}, amount=#{token_amount}"
+    puts "issue token: id=#{token_id}, type=#{token_type}"
     txs.each do |tx|
       puts tx.txid
     end
   end
+
   desc "tokenを再発行する"
   task :reissuetoken, ["color_id"] => :environment do |task, args|
     sender = Glueby::Wallet.load(SENDER_ID)
     color_id_hash = args["color_id"].to_s
     color_id = Tapyrus::Color::ColorIdentifier.parse_from_payload(color_id_hash.htb)
     token = Glueby::Contract::Token.new(color_id: color_id)
-    (color_id_result, reissue_tx) = token.reissue!(issuer: sender, amount: 100)
-    puts "reissue tx=#{reissue_tx.txid}"
+    (color_id_result, tx) = token.reissue!(issuer: sender, amount: 100)
+    puts "reissue tx=#{tx.txid}"
+  end
+
+  desc "tokenを発行する(non-reissuable)"
+  task :issuefixtoken => :environment do |task, args|
+    alice = Glueby::Wallet.load(SENDER_ID)
+    tokens = Glueby::Contract::Token.issue!(issuer: alice,
+                                            token_type: Tapyrus::Color::TokenTypes::NON_REISSUABLE,
+                                            amount: 100)
+    token_info = tokens[0]
+    txs = tokens[1]
+    token_id = token_info.color_id.payload.bth
+    token_type = color_type2name(token_info.token_type)
+    puts "issue token: id=#{token_id}, type=#{token_type}"
+    txs.each do |tx|
+      puts tx.txid
+    end
+  end
+
+  desc "tokenを発行する(NFT)"
+  task :issuenft => :environment do |task, args|
+    alice = Glueby::Wallet.load(SENDER_ID)
+    tokens = Glueby::Contract::Token.issue!(issuer: alice,
+                                            token_type: Tapyrus::Color::TokenTypes::NFT,
+                                            amount: 100)
+    token_info = tokens[0]
+    txs = tokens[1]
+    token_id = token_info.color_id.payload.bth
+    token_type = color_type2name(token_info.token_type)
+    puts "issue token: id=#{token_id}, type=#{token_type}"
+    txs.each do |tx|
+      puts tx.txid
+    end
+  end
+
+  desc "tokenを送る"
+  task :transfertoken, ["color_id"] => :environment do |task, args|
+    alice = Glueby::Wallet.load(SENDER_ID)
+    bob = Glueby::Wallet.load(RECEIVER_ID)
+
+    color_id_hash = args["color_id"].to_s
+    color_id = Tapyrus::Color::ColorIdentifier.parse_from_payload(color_id_hash.htb)
+    token = Glueby::Contract::Token.new(color_id: color_id)
+    address = bob.internal_wallet.receive_address
+
+    amount = 50
+    if(color_type2name(color_id.type) == "nft")
+      amount = 1
+    end
+    (color_id_result, tx) = token.transfer!(sender: alice, receiver_address: address, amount: amount)
+    puts "transfer tx=#{tx.txid}"
+  end
+
+  desc "tokenを燃やす"
+  task :burntoken, ["color_id"] => :environment do |task, args|
+    alice = Glueby::Wallet.load(SENDER_ID)
+
+    color_id_hash = args["color_id"].to_s
+    color_id = Tapyrus::Color::ColorIdentifier.parse_from_payload(color_id_hash.htb)
+    token = Glueby::Contract::Token.new(color_id: color_id)
+
+    amount = 10
+    if(color_type2name(color_id.type) == "nft")
+      amount = 1
+    end
+    tx = token.burn!(sender: alice, amount: amount)
+    puts "transfer tx=#{tx.txid}"
   end
 
   desc "tokenの情報を表示する"
@@ -120,7 +178,6 @@ namespace :tapyrus do
     token_type = color_type2name(color_id.type)
     puts "token info: id=#{token_id}, type=#{token_type}"
   end
-
 
 
   #############################
