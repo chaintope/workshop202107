@@ -29,14 +29,7 @@ namespace :tapyrus do
 
   desc "TCPを送金する"
   task :payment => :environment do |task, args|
-    sender = Glueby::Wallet.load(SENDER_ID)
-    receiver = Glueby::Wallet.load(RECEIVER_ID)
-    address = receiver.internal_wallet.receive_address
-    puts "receiver address = #{address}"
-    tx = Glueby::Contract::Payment.transfer(sender: sender,
-                                       receiver_address: address,
-                                       amount: 10_000_000)
-    puts "transaction.id = #{tx.txid}"
+    payment(SENDER_ID, RECEIVER_ID, 10_000_000) # 0.1TPC引き出す
   end
 
   desc "ブロックを生成する"
