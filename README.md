@@ -55,5 +55,5 @@ Gluebyの一番基本的なContractであるGlueby::Contract::Paymentを用い�
     ```
 
 # その他の情報
-* lib/tasks/tapyrus.rakeのより詳細な情報については、 skeleton ブランチを参照
-* Gluebyのその他のContractの使用例については、 all_samples ブランチを参照
+* lib/tasks/tapyrus.rakeのより詳細な情報については、 [skeleton](https://github.com/chaintope/workshop202107/tree/skeleton) ブランチを参照
+* Gluebyのその他のContractの使用例については、 [all_samples](https://github.com/chaintope/workshop202107/tree/all_samples) ブランチを参照
