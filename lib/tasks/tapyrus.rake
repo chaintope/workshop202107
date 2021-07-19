@@ -33,17 +33,16 @@ namespace :tapyrus do
   end
 
   desc "ブロックを生成する"
-  task :generate, ["count"] => :environment do |task, args|
-    count = args["count"].to_i
-    count = 1 if count == 0
-    authority_key = "c87509a1c067bbde78beb793e6fa76530b6382a4c0241e5e4a9ec0a0f44dc0d3"
+  task :generate => :environment do |task, args|
+    count = 1 # 生成するブロック数
+    authority_key = "cUJN5RVzYWFoeY8rUztd47jzXCu1p57Ay8V7pqCzsBD3PEXN7Dd4" # minerの秘密鍵
 
-    puts "before block=#{Glueby::Internal::RPC.client.getblockcount}"
-    Glueby::Internal::RPC.perform_as("wallet-"+FAUCET_ID) do |client|
-      client.generate(count, authority_key)
-    end
-    puts "#{count} blocks generated."
-    puts "after block=#{Glueby::Internal::RPC.client.getblockcount}"
+    faucet = Glueby::Wallet.load(FAUCET_ID) # faucetのwalletをロード
+    receive_address = faucet.internal_wallet.receive_address # mining報酬の受け取りアドレスを生成
+    puts Glueby::Internal::RPC.client.generatetoaddress(count, receive_address, authority_key) # blockを生成(dev modeのみ有効なコマンド)
+
+    puts "#{count} blocks generated. send reward to: #{receive_address}" # block生成数と報酬を受け取ったaddressを表示
+    puts "after block=#{Glueby::Internal::RPC.client.getblockcount}" # 生成後のblockの高さを表示
   end
 
 
