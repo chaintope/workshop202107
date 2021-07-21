@@ -1,5 +1,5 @@
 # README
-2021年7月の福岡県主催ブロックチェーン勉強会のworkshopで用いるサンプルコード
+2021年7月ブロックチェーン勉強会のworkshopで用いるサンプルコード
 
 1. Dockerを使った開発モードのtapyrus nodeの立て方と操作方法については以下を参照
    * [Tapyrus CoreのQuick Start](https://github.com/chaintope/tapyrus-core/blob/master/doc/docker_image.md#dev-mode)を参照
