@@ -28,7 +28,8 @@ Gluebyの一番基本的なContractであるGlueby::Contract::Paymentを用い�
 1. 生成されたwallet idをlib/tasks/tapyrus.rakeのFAUCET_ID, SENDER_ID, RECEIVER_IDに設定する。
 1. blockを生成する。
     ```shell
-   bundle exec rails tapyrus:generate
+    bundle exec rails tapyrus:generate
+    bundle exec rails glueby:contract:block_syncer:start
     ```
 
 1. faucetからTCPを引き出す(faucetからsenderに送金する)。
