@@ -7,6 +7,12 @@ import Rails from "@rails/ujs"
 import Turbolinks from "turbolinks"
 import * as ActiveStorage from "@rails/activestorage"
 import "channels"
+import 'mdb-ui-kit'
+import "@fortawesome/fontawesome-free/js/all"
+
+
+document.addEventListener("turbolinks:load", function() {
+})
 
 Rails.start()
 Turbolinks.start()
