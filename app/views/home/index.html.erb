@@ -1,11 +1,99 @@
-<h1>Home#index</h1>
-<p>Find me in app/views/home/index.html.erb</p>
 
-<button type="button" class="btn btn-outline-primary">Primary</button>
-<button type="button" class="btn btn-outline-secondary">Secondary</button>
-<button type="button" class="btn btn-outline-success">Success</button>
-<button type="button" class="btn btn-outline-danger">Danger</button>
-<button type="button" class="btn btn-outline-warning">Warning</button>
-<button type="button" class="btn btn-outline-info">Info</button>
-<button type="button" class="btn btn-outline-light">Light</button>
-<button type="button" class="btn btn-outline-dark">Dark</button>
+<!-- Section: wallet basic info -->
+<section class="mb-4">
+  <div class="card">
+    <div class="card-header py-3">
+      <h5 class="mb-0 text-center"><strong>Basic Info</strong></h5>
+    </div>
+    <div class="card-body">
+
+      <div class="container">
+
+        <!-- 受け取りアドレスの表示 -->
+        <div class="row mt-2">
+          <div class="col-sm-4">address:</div>
+          <div class="col-sm-6"><strong><%= @receive_address %></strong></div>
+          <div class="col-sm-2">
+            <%=button_to "アドレス生成", {controller: 'home', action: 'create_receive_address'}, {method: :post, class: "btn btn-outline-primary btn-sm"} %>
+          </div>
+        </div>
+
+        <!-- 残高の表示 -->
+        <div class="row" style="height: 40px;">
+          <div class="col-sm-4">balance:</div>
+          <div class="col-sm-6 border-bottom">
+            <h4>
+            <%= tpcbalance(current_user.wallet_id) %>
+            </h4>
+          </div>
+          <div class="col-sm-2">TPC</div>
+        </div>
+
+        <!-- wallet idの表示 -->
+        <div class="row">
+          <div class="col-sm-4">wallet_id:</div>
+          <div class="col-sm-8"><%= current_user.wallet_id %></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Section: Wallet basic info -->
+
+<!-- Section: UTXO List -->
+<section class="mb-4">
+  <div class="card">
+    <div class="card-header text-center py-3">
+      <h5 class="mb-0 text-center">
+        <strong>UTXO List</strong>
+      </h5>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-hover text-nowrap">
+          <thead>
+          <tr>
+            <th scope="col">Transaction id</th>
+            <th scope="col">Amount</th>
+            <th scope="col">vout</th>
+            <th scope="col">Receive Address</th>
+            <th scope="col">Finalized</th>
+          </tr>
+          </thead>
+          <tbody>
+          <!-- include utxo list partial -->
+          <%= render partial: "utxo", collection: @utxos  %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Section: UTXO List -->
+
+<section class="mb-4">
+  <div class="card">
+    <%= current_user.inspect %>
+  </div>
+</section>
+
+<section class="mb-4">
+  <div class="card">
+    <div class="card-header py-3">
+      <h5>Home#index</h5>
+      <p>Find me in app/views/home/index.html.erb</p>
+    </div>
+    <div class="card-body">
+
+      <button type="button" class="btn btn-outline-primary">Primary</button>
+      <button type="button" class="btn btn-outline-secondary">Secondary</button>
+      <button type="button" class="btn btn-outline-success">Success</button>
+      <button type="button" class="btn btn-outline-danger">Danger</button>
+      <button type="button" class="btn btn-outline-warning">Warning</button>
+      <button type="button" class="btn btn-outline-info">Info</button>
+      <button type="button" class="btn btn-outline-light">Light</button>
+      <button type="button" class="btn btn-outline-dark">Dark</button>
+    </div>
+  </div>
+</section>

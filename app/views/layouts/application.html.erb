@@ -8,9 +8,8 @@
 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
-  </head>
-
   <body>
+
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <!-- Container wrapper -->
@@ -57,13 +56,19 @@
 
       <!-- Right elements -->
       <div class="d-flex align-items-center">
+
         <% if user_signed_in? %>
-        <!-- Icon -->
-        <span class="navbar-nav">
-          <a class="nav-link" href="<%= destroy_user_session_path %>" data-method="delete">
-            <i class="fas fa-sign-out-alt"></i> Sign Out
-          </a>
-        </span>
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <!-- Icon -->
+              <a class="nav-link" href="<%= destroy_user_session_path %>" data-method="delete"
+                 data-mdb-toggle="tooltip"
+                 data-mdb-placement="bottom"
+                 title="sign out">
+                <%= current_user.email %> <i class="fas fa-sign-out-alt"></i>
+              </a>
+            </li>
+          </ul>
         <% end %>
       </div>
       <!-- Right elements -->
@@ -71,11 +76,14 @@
     <!-- Container wrapper -->
   </nav>
   <!-- Navbar -->
-  <main style="margin-top: 58px">
-    <div class="container pt-4">
-      <%= yield %>
-    </div>
-  </main>
+  </head>
 
+  <main style="margin-top: 58px">
+      <div class="container pt-4">
+        <%= yield %>
+      </div>
+    </main>
+
+  <%= javascript_pack_tag 'load_mdb', 'data-turbolinks-track': 'reload' %>
   </body>
 </html>

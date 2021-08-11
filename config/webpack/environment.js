@@ -5,7 +5,8 @@ const webpack = require('webpack')
 environment.plugins.prepend(
     'Provide',
     new webpack.ProvidePlugin({
-        $: 'jQuery/dist/jquery',
+        $: 'jquery/src/jquery',
+        jQuery: 'jquery/src/jquery',
         Popper: ['popper.js', 'default'],
     })
 )

@@ -9,11 +9,11 @@
 ########################################
 
 # faucetのwallet_id。mining報酬が溜まっていくwallet。
-FAUCET_ID = ""
+FAUCET_ID = "0f122bd5c999e7aa154d7af8c83f9dd9"
 # サンプルで使うsender & aliceのwallet_id。TCPを持っている必要があるのでfaucetと同じwallet_idを指定している。
-SENDER_ID = ""
+SENDER_ID = "b599fef3afe2b22166ff581cd685f24b"
 # サンプルで使うreceiver & bobのwallet_id。
-RECEIVER_ID = ""
+RECEIVER_ID = "e2e30781402a3460e9cfa831b4347d58"
 
 namespace :tapyrus do
   desc "walletを生成する"
@@ -43,6 +43,8 @@ namespace :tapyrus do
 
     puts "#{count} blocks generated. send reward to: #{receive_address}" # block生成数と報酬を受け取ったaddressを表示
     puts "after block=#{Glueby::Internal::RPC.client.getblockcount}" # 生成後のblockの高さを表示
+
+    Rake::Task["glueby:contract:block_syncer:start"].execute()
   end
 
 

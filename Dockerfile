@@ -14,14 +14,11 @@ WORKDIR /myapp
 
 COPY Gemfile /myapp/Gemfile
 COPY Gemfile.lock /myapp/Gemfile.lock
-COPY package.json /myapp/package.json
-COPY yarn.lock /myapp/yarn.lock
 
 RUN gem install bundler
 RUN gem install devise
 RUN gem install nokogiri --platform=ruby
 RUN bundle install
-RUN yarn install
 
 COPY . /myapp
 CMD ["rails", "server", "-b", "0.0.0.0", "-p", "3000"]
