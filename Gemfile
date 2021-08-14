@@ -32,7 +32,9 @@ gem 'bootsnap', '>= 1.4.4', require: false
 # Tapyrus low level tools library
 gem 'tapyrus'
 # Tapyrus High level library. make contract easily.
-gem 'glueby'
+gem 'glueby', git: 'https://github.com/chaintope/glueby.git'
+
+
 
 # web uiのための設定
 # For User Management

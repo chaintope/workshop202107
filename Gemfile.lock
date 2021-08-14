@@ -1,3 +1,11 @@
+GIT
+  remote: https://github.com/chaintope/glueby.git
+  revision: 7b345102d153623cf694d0cf051d3b1c5fb0a820
+  specs:
+    glueby (0.4.1)
+      activerecord
+      tapyrus (>= 0.2.9)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -93,9 +101,6 @@ GEM
     ffi (1.15.3)
     globalid (0.5.2)
       activesupport (>= 5.0)
-    glueby (0.4.1)
-      activerecord
-      tapyrus (>= 0.2.9)
     i18n (1.8.10)
       concurrent-ruby (~> 1.0)
     iniparse (1.5.0)
@@ -245,7 +250,7 @@ DEPENDENCIES
   byebug
   capybara (>= 3.26)
   devise
-  glueby
+  glueby!
   jbuilder (~> 2.7)
   listen (~> 3.3)
   puma (~> 5.0)

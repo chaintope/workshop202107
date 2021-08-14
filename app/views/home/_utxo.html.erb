@@ -1,5 +1,5 @@
 <tr>
-  <th scope="row"><%= utxo[:txid] %></th>
+  <th scope="row"><span class="<%= utxo[:finalized] ? '': 'text-warning' %>"><%= utxo[:txid] %></span></th>
   <td><%= utxo[:amount] / 100_000_000.to_f%></td>
   <td><%= utxo[:vout] %></td>
   <td><%= Tapyrus::Script.parse_from_payload(utxo[:script_pubkey].htb).addresses[0] %></td>

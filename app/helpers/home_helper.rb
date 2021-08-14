@@ -5,6 +5,6 @@ module HomeHelper
       return "NaN"
     end
 
-    return Glueby::Wallet.load(wallet_id).balances[""] / 100_000_000.to_f
+    return Glueby::Wallet.load(wallet_id).balances[""].to_i / 100_000_000.to_f
   end
 end

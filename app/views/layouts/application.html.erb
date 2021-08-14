@@ -30,7 +30,7 @@
       <!-- Collapsible wrapper -->
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <!-- Navbar brand -->
-        <a class="navbar-brand mt-2 mt-lg-0" href="#">
+        <a class="navbar-brand mt-2 mt-lg-0" href="<%= root_url %>">
           <img
             src="<%= asset_path('tapyrus-logo2.png') %>"
             height="48"
@@ -41,13 +41,7 @@
         <!-- Left links -->
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link" href="#">Dashboard</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Team</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Projects</a>
+            <a class="nav-link" href="<%= home_index_url %>">Payment</a>
           </li>
         </ul>
         <!-- Left links -->
@@ -77,6 +71,21 @@
   </nav>
   <!-- Navbar -->
   </head>
+
+  <% flash.each do |key, message| %>
+    <div class="alert <%= flash_class(key) %> alert-dismissible fade show" role="alert">
+      <% if message.is_a?(Array) %>
+        <ul>
+          <% message.each do |m| %>
+          <li><%= m %></li>
+          <% end %>
+        </ul>
+      <% else %>
+        <%= message %>
+      <% end %>
+      <button type="button" class="btn-close" data-mdb-dismiss="alert" aria-label="Close"></button>
+    </div>
+  <% end %>
 
   <main style="margin-top: 58px">
       <div class="container pt-4">
