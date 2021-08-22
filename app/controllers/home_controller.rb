@@ -5,8 +5,7 @@ class HomeController < ApplicationController
   before_action :load_wallet
 
   def index
-    addrs = @wallet.internal_wallet.get_addresses(RECEIVE_ADDRESS_LABEL)
-    @receive_address = addrs[-1]
+    @receive_address = current_receive_address(@wallet)
     @utxos = @wallet.internal_wallet.list_unspent(false)
     @block_height = Glueby::Internal::RPC.client.getblockcount
     @sync_block = Glueby::AR::SystemInformation.synced_block_height.int_value
@@ -36,7 +35,6 @@ class HomeController < ApplicationController
 
   # TPCを送金する
   def payment
-
     payment = Payment.new(payment_params)
     unless payment.valid?
       flash[:error] =  payment.errors.full_messages
