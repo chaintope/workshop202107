@@ -5,15 +5,23 @@ class HomeController < ApplicationController
   before_action :load_wallet
 
   def index
-    @receive_address = current_receive_address(@wallet)
-    @utxos = @wallet.internal_wallet.list_unspent(false)
+    @utxos = []
+
+    if @wallet
+      @receive_address = current_receive_address(@wallet)
+      @utxos = @wallet.internal_wallet.list_unspent(false)
+    end
+
     @block_height = Glueby::Internal::RPC.client.getblockcount
     @sync_block = Glueby::AR::SystemInformation.synced_block_height.int_value
   end
 
   # 新しい受け取りアドレスを生成する
   def create_receive_address
-    @wallet.internal_wallet.receive_address(RECEIVE_ADDRESS_LABEL)
+    # TODO: Second: Implement create address with specific label.
+    # It can create new address using by `Glueby::Wallet.internal_wallet.receive_address`.
+    #
+    # like this: wallet.internal_wallet.receive_address(label)
 
     flash[:notice] = 'Create new receive address'
     redirect_to action: :index
@@ -22,10 +30,10 @@ class HomeController < ApplicationController
   # ブロックを生成する
   def generate
     begin
-    generate_block(@wallet)
-    sync_block
+      generate_block(@wallet)
+      sync_block
 
-    flash[:success] = 'Successfully generate block'
+      flash[:success] = 'Successfully generate block'
     rescue Tapyrus::RPC::Error => e
       Rails.logger.warn e.backtrace.join("\n")
       flash[:error] = e.message
@@ -58,7 +66,9 @@ class HomeController < ApplicationController
   end
 
   def load_wallet
-    @wallet = Glueby::Wallet.load(current_user.wallet_id)
+    unless current_user.wallet_id.empty?
+      @wallet = Glueby::Wallet.load(current_user.wallet_id)
+    end
   end
 
 end

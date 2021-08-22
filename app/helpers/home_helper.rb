@@ -1,10 +1,10 @@
 module HomeHelper
   # TPCの残高を返す
-  def tpcbalance(wallet_id)
-    unless wallet_id
+  def tpcbalance
+    if @wallet
+      return @wallet.balances[""].to_i / 100_000_000.to_f
+    else
       return "NaN"
     end
-
-    return Glueby::Wallet.load(wallet_id).balances[""].to_i / 100_000_000.to_f
   end
 end
