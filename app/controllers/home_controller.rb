@@ -4,7 +4,6 @@ class HomeController < ApplicationController
   before_action :authenticate_user!
   before_action :load_wallet
 
-  RECEIVE_ADDRESS_LABEL = 'receive'
   def index
     addrs = @wallet.internal_wallet.get_addresses(RECEIVE_ADDRESS_LABEL)
     @receive_address = addrs[-1]
@@ -23,14 +22,15 @@ class HomeController < ApplicationController
 
   # ブロックを生成する
   def generate
-    count = 1 # 生成するブロック数
-    authority_key = "cUJN5RVzYWFoeY8rUztd47jzXCu1p57Ay8V7pqCzsBD3PEXN7Dd4" # minerの秘密鍵
-
-    receive_address = current_receive_address # mining報酬の受け取りアドレス
-    Glueby::Internal::RPC.client.generatetoaddress(count, receive_address, authority_key) # blockを生成(dev modeのみ有効なコマンド)
-    sync_block # block情報をDBに同期
+    begin
+    generate_block(@wallet)
+    sync_block
 
     flash[:success] = 'Successfully generate block'
+    rescue Tapyrus::RPC::Error => e
+      Rails.logger.warn e.backtrace.join("\n")
+      flash[:error] = e.message
+    end
     redirect_to action: :index
   end
 
@@ -61,10 +61,6 @@ class HomeController < ApplicationController
 
   def load_wallet
     @wallet = Glueby::Wallet.load(current_user.wallet_id)
-  end
-
-  def current_receive_address
-    @wallet.internal_wallet.get_addresses(RECEIVE_ADDRESS_LABEL)[-1]
   end
 
 end

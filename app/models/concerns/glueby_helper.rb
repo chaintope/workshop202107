@@ -1,5 +1,19 @@
 module GluebyHelper
 
+  RECEIVE_ADDRESS_LABEL = 'receive'
+
+  def current_receive_address(wallet)
+    wallet.internal_wallet.get_addresses(RECEIVE_ADDRESS_LABEL)[-1]
+  end
+
+  # ブロックを生成する
+  def generate_block(wallet)
+    count = 1 # 生成するブロック数
+    authority_key = "cUJN5RVzYWFoeY8rUztd47jzXCu1p57Ay8V7pqCzsBD3PEXN7Dd4" # minerの秘密鍵
+
+    Glueby::Internal::RPC.client.generatetoaddress(count, current_receive_address(wallet), authority_key) # blockを生成(dev modeのみ有効なコマンド)
+  end
+
   # copy from Glueby::Contract::Task::BlockSyncer
   def sync_block
 

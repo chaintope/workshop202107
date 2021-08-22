@@ -1,0 +1,99 @@
+<!-- Section: Timestamp register -->
+<section class="mb-4">
+  <div class="card">
+    <div class="card-header py-3">
+      <h5 class="mb-0 text-center"><strong>Create Timestamp</strong></h5>
+    </div>
+    <div class="card-body">
+      <div class="container">
+
+        <div class="row mt-2">
+        <%= form_for "timestamp", :url => timestamp_register_url, :method => :post, :html => {:class => ''} do |f| %>
+          <!-- 支払い先アドレスとTPCを入力するフォームを表示 -->
+          <div class="row mt-2">
+            <div class="input-group mb-3">
+              <span class="input-group-text" id="basic-addon2">Message</span>
+              <%= f.text_field :message, type: "message", class: "form-control", id: "message", placeholder: "Any Message" %>
+            </div>
+          </div>
+          <%= f.submit "BCに記録", class: "btn btn-default btn-outline-primary" %>
+          <% end %>
+        </div>
+          <!-- Wallet情報の表示 -->
+        <div class="row mt-2">
+          <div class="col-sm-8">(残高: <%= tpcbalance(current_user.wallet_id) %> TPC)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Section: Timestamp register -->
+
+<!-- Section: Verify Timestamp -->
+<section class="mb-4">
+  <div class="card">
+    <div class="card-header py-3">
+      <h5 class="mb-0 text-center"><strong>Verify Timestamp</strong></h5>
+    </div>
+    <div class="card-body">
+      <div class="container">
+
+        <div class="row mt-2">
+          <%= form_for "verify", :url => timestamp_verify_url, :method => :post, :html => {:class => ''} do |f| %>
+            <!-- 支払い先アドレスとTPCを入力するフォームを表示 -->
+            <div class="row mt-2">
+              <div class="input-group mb-3">
+                <span class="input-group-text" id="verify-txid">txid</span>
+                <%= f.text_field :txid, type: "text", class: "form-control", id: "txid_input", placeholder: "Target Transaction" %>
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="input-group mb-3">
+                <span class="input-group-text" id="verify-message">Message</span>
+                <%= f.text_field :message, type: "text", class: "form-control", id: "message_input", placeholder: "Any Message" %>
+              </div>
+            </div>
+            <%= f.submit "検証する", class: "btn btn-default btn-outline-primary" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Section: Verify Timestamp -->
+
+<!-- Section: Timestamp List -->
+<section class="mb-4">
+  <div class="card">
+    <div class="card-header text-center py-3">
+      <h5 class="mb-0 text-center">
+        <strong>Timestamp List</strong>
+      </h5>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-hover text-nowrap">
+          <thead>
+          <tr>
+            <th scope="col">Transaction id</th>
+            <th scope="col">Content Hash</th>
+            <th scope="col">Wallet ID</th>
+            <th scope="col">Status</th>
+          </tr>
+          </thead>
+          <tbody>
+          <% @list.each do |t| %>
+          <tr>
+            <th scope="row"><span class="<%= t[:status] == 'confirmed' ? '': 'text-warning' %>"><%= t[:txid] %></span></th>
+            <td><%= t[:content_hash] %></td>
+            <td><%= t[:wallet_id] %></td>
+            <td><%= t[:status] %></td>
+          </tr>
+          <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Section: Timestamp List -->
