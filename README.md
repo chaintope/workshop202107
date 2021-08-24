@@ -39,7 +39,7 @@ Dockerで準備されている環境を起動し、DBの設定などを行って
 
 4. user.rbの`before_create`を実装する
 
-   app/models/user.rbの7〜11行目にある、`before_create` にUser作成時に同時にWalletが生成されるよう、walletを作成する処理を実装する。
+   app/models/user.rbの`before_create`メソッドにUser作成時に同時にWalletが生成されるよう、walletを作成する処理を実装する。
    before_createの内容を以下に修正する。
 
    ```ruby
@@ -61,7 +61,7 @@ Postでリクエストされる、HomeControllerの該当アクション内に�
 
 5. home_controller.rbの`create_receive_address`アクションを実装する
 
-   app/controllers/home_controller.rbの20〜28行目にある`create_receive_address`で新しいアドレスが生成されるように以下のように修正する。また、画面上に最新のアドレスを表示するために、アドレスを識別するためのLabelを指定して作成する。
+   app/controllers/home_controller.rbの`create_receive_address`メソッドで新しいアドレスが生成されるように以下のように修正する。また、画面上に最新のアドレスを表示するために、アドレスを識別するためのLabelを指定して作成する。
 
    ```ruby
     def create_receive_address
@@ -82,7 +82,7 @@ Postでリクエストされる、HomeControllerの該当アクション内に�
 
    なので、ここではglueby_helper.rbの`current_receive_address`メソッドの中身を実装することで生成したアドレスを画面上に表示できるようになる。
 
-   app/models/concerns/glueby_helper.rbの5〜10行目を以下のように修正する。
+   app/models/concerns/glueby_helper.rbの`current_receive_address`メソッドを以下のように修正する。
 
    ```ruby
     def current_receive_address(wallet)
@@ -107,7 +107,7 @@ Tapyrusなどのブロックチェーンで送金処理を完了する、つま�
 
    GluebyHelperの`generate_block`メソッドはまだ未実装なのでここではこのメソッドの中にブロック生成の処理を実装する。
 
-   app/models/concerns/glueby_helper.rbの12〜22行目を以下のように修正する。
+   app/models/concerns/glueby_helper.rbの`generate_block`メソッドを以下のように修正する。
 
    ```ruby
    def generate_block(wallet)
@@ -126,8 +126,29 @@ Tapyrusなどのブロックチェーンで送金処理を完了する、つま�
 
 ## 5. 支払い機能を実装する
 
-最後に、自分が保有しているTPCを任意のアドレスに対して送金する支払い機能を実装する。
+最後に、自分が保有しているTPCを任意のアドレスに対して送金する支払い機能を実装する。支払いのためのTransactionを作成するためには、送金する数量(TPC)の残高を保有しているかをチェックし、それらが記録されたUTXOを収集する必要がある。また、UTXOを消費するためにそれぞれの宛先に対応する署名を生成する必要もある。
 
+これらの処理はGlueby::Contract::Paymentを使うことで簡単に実装できる。
+
+8. payment.rbの`transfer`を実装する
+
+    支払い機能を実装するには、Formから送金先のアドレスと送金金額を入力する必要がある。そのため、入力内容のバリデーションを行うために送金処理についてはActiveModelをincludeしたPaymentクラスが責務を追う。
+
+    支払い処理はPaymentクラスの`transfer`メソッドで実装する。
+
+    app/models/concerns/payment.rbの`transfer`メソッドを以下のように修正する。
+
+    ```ruby
+    def transfer(wallet)
+      Glueby::Contract::Payment.transfer(sender: wallet,
+                         receiver_address: self.address,
+                         amount: self.amount.to_i * 100_000_000) # convert unit TPC to tapyrus
+    end
+    ```
+
+    このコードでは、`Glueby::Contract::Payment`を用いてTPCの送金処理を実装している。UTXOの収集や十分な残高のチェックなどは全て`Glueby::Contract::Payment`が処理してくれる。
+
+    これで任意のアドレスに送金が可能となった。実際にブラウザで送金できるか試してみよう。
 
 # その他の情報
 * lib/tasks/tapyrus.rakeのより詳細な情報については、 [skeleton](https://github.com/chaintope/workshop202107/tree/skeleton) ブランチを参照
