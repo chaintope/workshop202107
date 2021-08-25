@@ -5,10 +5,10 @@
 Ruby on RailsとGluebyを組み合わせて、ブロックチェーンを用いたWeb appを作成するためのサンプルコード。
 以下の手順に従って未実装部分を補完することで、シンプルな送金処理が実装できる。
 
-## 1. Web appのスケルトンを起動する
+## 1. Web Appのスケルトンを起動する
 Dockerで準備されている環境を起動し、DBの設定などを行ってWeb Appの実装を行う初期設定を行う。
 
-1. tapyrus nodeとWeb appを起動する
+1. tapyrus nodeとWeb Appを起動する
 
     docker composeコマンドを実行して、tapyrus nodeとWeb Appを起動する。
     ```shell
