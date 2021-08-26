@@ -150,6 +150,10 @@ Tapyrusなどのブロックチェーンで送金処理を完了する、つま�
 
     これで任意のアドレスに送金が可能となった。実際にブラウザで送金できるか試してみよう。
 
+# Additional Task
+
+[web_ui_with_token](https://github.com/chaintope/workshop202107/tree/web_ui_with_token) ブランチをチェックアウトして、tokenの送金処理を実装してみよう
+
 # その他の情報
 * lib/tasks/tapyrus.rakeのより詳細な情報については、 [skeleton](https://github.com/chaintope/workshop202107/tree/skeleton) ブランチを参照
 * Gluebyのその他のContractの使用例については、 [all_samples](https://github.com/chaintope/workshop202107/tree/all_samples) ブランチを参照
