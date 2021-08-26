@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_13_162620) do
+ActiveRecord::Schema.define(version: 2021_08_26_052215) do
 
   create_table "glueby_keys", force: :cascade do |t|
     t.string "private_key"
@@ -25,6 +25,14 @@ ActiveRecord::Schema.define(version: 2021_08_13_162620) do
     t.index ["private_key"], name: "index_glueby_keys_on_private_key", unique: true
     t.index ["script_pubkey"], name: "index_glueby_keys_on_script_pubkey", unique: true
     t.index ["wallet_id"], name: "index_glueby_keys_on_wallet_id"
+  end
+
+  create_table "glueby_reissuable_tokens", force: :cascade do |t|
+    t.string "color_id", null: false
+    t.string "script_pubkey", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["color_id"], name: "index_glueby_reissuable_tokens_on_color_id", unique: true
   end
 
   create_table "glueby_system_informations", force: :cascade do |t|

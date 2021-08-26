@@ -1,0 +1,111 @@
+<%= javascript_pack_tag 'token', 'data-turbolinks-track': 'reload' %>
+
+<!-- Section: Issue Token -->
+<section class="mb-4">
+  <div class="card">
+    <div class="card-header py-3">
+      <h5 class="mb-0 text-center"><strong>Issue Token</strong></h5>
+    </div>
+    <div class="card-body">
+      <div class="container">
+
+        <div class="row mt-2">
+          <%= form_for "issue", :url => token_issue_url, :method => :post, :html => {:class => ''} do |f| %>
+
+            <!-- 発行するTokenの種類と数量を入力するフォームを表示 -->
+            <div class="row mt-2">
+              <div class="input-group mb-3">
+                <span class="input-group-text" id="issue-token_type">Token Type</span>
+                <%= select_tag("issue[token_type]", options_for_select(token_type_options), {class: "form-select", "aria-label": "Token Type"}) %>
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="input-group mb-3">
+                <span class="input-group-text" id="issue-amount">Amount</span>
+                <%= f.text_field :amount, type: "text", class: "form-control", id: "amount_input", placeholder: "How many issue" %>
+              </div>
+            </div>
+            <%= f.submit "発行する", class: "btn btn-default btn-outline-primary" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Section: Issue Token -->
+
+
+<!-- Section: Send Token -->
+<section class="mb-4">
+  <div class="card">
+    <div class="card-header py-3">
+      <h5 class="mb-0 text-center"><strong>Send Token</strong></h5>
+    </div>
+    <div class="card-body">
+      <div class="container">
+
+        <div class="row mt-2">
+          <%= form_for "send_token", :url => token_send_token_url, :method => :post, :html => {:class => ''} do |f| %>
+
+            <!-- 送金するTokenの種類と数量と送金先アドレスを入力するフォームを表示 -->
+            <div class="row mt-2">
+              <div class="input-group mb-3">
+                <span class="input-group-text" id="send-address-label">Address</span>
+                <%= f.text_field :address, type: "address", class: "form-control", id: "address", placeholder: "Address" %>
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="input-group mb-3">
+                <span class="input-group-text" id="send-color_id">Color ID</span>
+                <%= select_tag("send_token[color_id]", options_for_select(@color_ids), {class: "form-select", "aria-label": "Token Type"}) %>
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="input-group mb-3">
+                <span class="input-group-text" id="send-amount">Amount</span>
+                <%= f.text_field :amount, type: "text", class: "form-control", id: "send_amount_input", placeholder: "Send token amount" %>
+              </div>
+            </div>
+            <%= f.submit "送金する", class: "btn btn-default btn-outline-primary" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Section: Issue Token -->
+
+
+<!-- Section: Token List -->
+<section class="mb-4">
+  <div class="card">
+    <div class="card-header text-center py-3">
+      <h5 class="mb-0 text-center">
+        <strong>Token List</strong>
+      </h5>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-hover text-nowrap">
+          <thead>
+          <tr>
+            <th scope="col">Color id</th>
+            <th scope="col">Token Type</th>
+            <th scope="col">Amount</th>
+          </tr>
+          </thead>
+          <tbody>
+          <% @list.each do |color_id, amount| %>
+            <tr>
+              <th scope="row"><i class="fas fa-coins pr-3" style="color: #<%= color_id2rgb(color_id) %>;" aria-hidden="true"></i> <%= color_id %></th>
+              <td><!-- token type --><%= color_id2token_type(color_id) %></td>
+              <td><!-- amount --><%= amount.to_i %></td>
+            </tr>
+          <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Section: Token List -->
