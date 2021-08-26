@@ -8,12 +8,9 @@ class Payment
 
   # 送金を実行
   def transfer(wallet)
-    # TODO: Fifth: Implement payment function using by Glueby::Contract::Payment.
-    #
-    # like this:
-    #   Glueby::Contract::Payment.transfer(sender: wallet,
-    #                                    receiver_address: address,
-    #                                    amount: 10 * 100_000_000) # convert unit TPC to tapyrus
+    Glueby::Contract::Payment.transfer(sender: wallet,
+                                       receiver_address: self.address,
+                                       amount: self.amount.to_i * 100_000_000) # convert unit TPC to tapyrus
   end
 
   # 送信先のアドレスをチェック

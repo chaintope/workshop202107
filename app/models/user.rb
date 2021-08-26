@@ -5,8 +5,6 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   before_create do
-    # TODO: First: Implement create wallet.
-    #
-    # like this: wallet_id = Glueby::Wallet.create.id
+    self.wallet_id = Glueby::Wallet.create.id
   end
 end

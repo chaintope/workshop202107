@@ -18,11 +18,7 @@ class HomeController < ApplicationController
 
   # 新しい受け取りアドレスを生成する
   def create_receive_address
-    # TODO: Second: Implement create address with specific label.
-    # It can create new address using by `Glueby::Wallet.internal_wallet.receive_address`.
-    #
-    # like this: wallet.internal_wallet.receive_address(label)
-
+    @wallet.internal_wallet.receive_address(RECEIVE_ADDRESS_LABEL)
     flash[:notice] = 'Create new receive address'
     redirect_to action: :index
   end
