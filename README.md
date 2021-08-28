@@ -1,9 +1,9 @@
 # README
-2021年7月ブロックチェーン勉強会のworkshopで用いるサンプルコード
+Group1がフォークして作成している、奨学金関連のアプリに関するソースコード
 
 1. Dockerを使った開発モードのtapyrus nodeの立て方と操作方法については以下を参照
    * [Tapyrus CoreのQuick Start](https://github.com/chaintope/tapyrus-core/blob/master/doc/docker_image.md#dev-mode)を参照
-   
+
 2. Gluebyの使い方については以下を参照
    * [glueby/README.md](https://github.com/chaintope/glueby/blob/master/README.md)を参照
 
