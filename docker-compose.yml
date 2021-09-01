@@ -13,6 +13,7 @@ services:
       - tapyrus:/var/lib/tapyrus
     ports:
       - "12381:12381"
+    container_name: workshop202107_tapyrusd
   web:
     build: .
     tty: true
@@ -22,6 +23,7 @@ services:
       - gemfiles:/usr/local/bundle
     ports:
       - "3000:3000"
+    container_name: workshop202107_web
 volumes:
   gemfiles:
   tapyrus:

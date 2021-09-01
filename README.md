@@ -13,9 +13,11 @@ Gluebyの一番基本的なContractであるGlueby::Contract::Paymentを用い�
 
 1. tapyrus nodeを起動する
     ```shell
-    docker-compose up -d tapyrusd
+    docker compose up -d
     ```
 1. dbを作成する。
+    - 手順2以降のコマンドを実行する場合には、`docker exec workshop202107_web `に続けてwebコンテナ内で実行する
+    - 以下、冗長なので省略している
     ```shell
     bundle exec rails db:migrate
     ```
@@ -30,9 +32,10 @@ Gluebyの一番基本的なContractであるGlueby::Contract::Paymentを用い�
     ```shell
     bundle exec rails tapyrus:generate
     bundle exec rails glueby:contract:block_syncer:start
+    bundle exec rails tapyrus:getbalance
     ```
 
-1. faucetからTCPを引き出す(faucetからsenderに送金する)。
+1. faucetからTPCを引き出す(faucetからsenderに送金する)。
     ```shell
     bundle exec rails tapyrus:faucet
     ```
@@ -41,9 +44,10 @@ Gluebyの一番基本的なContractであるGlueby::Contract::Paymentを用い�
     ```shell
     bundle exec rails tapyrus:generate
     bundle exec rails glueby:contract:block_syncer:start
+    bundle exec rails tapyrus:getbalance
     ```
 
-1. senderからreceiverにTCPを送金する。
+1. senderからreceiverにTPCを送金する。
     ```shell
     bundle exec rails tapyrus:payment
     bundle exec rails tapyrus:generate
