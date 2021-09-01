@@ -32,7 +32,7 @@ Gluebyの一番基本的なContractであるGlueby::Contract::Paymentを用い�
     bundle exec rails glueby:contract:block_syncer:start
     ```
 
-1. faucetからTCPを引き出す(faucetからsenderに送金する)。
+1. faucetからTPCを引き出す(faucetからsenderに送金する)。
     ```shell
     bundle exec rails tapyrus:faucet
     ```
@@ -43,7 +43,7 @@ Gluebyの一番基本的なContractであるGlueby::Contract::Paymentを用い�
     bundle exec rails glueby:contract:block_syncer:start
     ```
 
-1. senderからreceiverにTCPを送金する。
+1. senderからreceiverにTPCを送金する。
     ```shell
     bundle exec rails tapyrus:payment
     bundle exec rails tapyrus:generate
